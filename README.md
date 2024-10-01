@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # habit_tracker
 
 A new Flutter project.
@@ -51,4 +50,3 @@ samples, guidance on mobile development, and a full API reference.
 Get in touch with us on [LinkedIn](https://www.linkedin.com/company/microsoft-student-technical-club-da-iict/) / [Instagram](https://www.instagram.com/mstc_daiict/)
 
 Write to us at microsoftclub@daiict.ac.in
->>>>>>> ec8ad67942d7eee8dcc7d86b5b870e2e1df9fc46
