@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(HabitTrackerApp());
+  runApp(const HabitTrackerApp());
 }
 
 class HabitTrackerApp extends StatelessWidget {
+  const HabitTrackerApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,12 +15,14 @@ class HabitTrackerApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -28,10 +32,10 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     HabitListPage(), // Home Page
-    Center(
+    const Center(
         child: Text('Calendar Page',
             style: TextStyle(fontSize: 24))), //Add widgets for Calendar Page
-    Center(
+    const Center(
         child: Text('Profile Page',
             style: TextStyle(fontSize: 24))), //Add widget for profile page
   ];
@@ -41,15 +45,19 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[700],
-        title: Text('Routinr: Habit Tracker', style: TextStyle(
-          color: Colors.white
-        ),),
+        title: const Text(
+          'Routinr: Habit Tracker',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
-                icon: Icon(Icons.incomplete_circle_sharp, color: Colors.white,),
+                icon: const Icon(
+                  Icons.incomplete_circle_sharp,
+                  color: Colors.white,
+                ),
                 onPressed: () {
                   // Add Logic for streak
                 },
@@ -65,8 +73,8 @@ class _HomePageState extends State<HomePage> {
         },
         backgroundColor: Colors.green[700],
         foregroundColor: Colors.white,
-        icon: Icon(Icons.add),
-        label: Text("Add Habit"),
+        icon: const Icon(Icons.add),
+        label: const Text("Add Habit"),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -75,7 +83,7 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -104,6 +112,8 @@ class HabitListPage extends StatelessWidget {
     'Drink water',
   ];
 
+  HabitListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -111,27 +121,27 @@ class HabitListPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Hi, John',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 14),
-          Text(
+          const SizedBox(height: 14),
+          const Text(
             "Today is 2024-10-01",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 14),
-          Text(
+          const SizedBox(height: 14),
+          const Text(
             "Your Habits:",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 14),
+          const SizedBox(height: 14),
           Column(
               children: habits.map((habit) {
             return Card(
               child: ListTile(
                 title: Text(habit),
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.arrow_drop_down_outlined,
                   size: 30,
                 ),
