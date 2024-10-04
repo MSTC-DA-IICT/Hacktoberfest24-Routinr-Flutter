@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/profile_screen.dart';
 
 void main() {
   runApp(HabitTrackerApp());
@@ -32,8 +33,7 @@ class _HomePageState extends State<HomePage> {
         child: Text('Calendar Page',
             style: TextStyle(fontSize: 24))), //Add widgets for Calendar Page
     Center(
-        child: Text('Profile Page',
-            style: TextStyle(fontSize: 24))), //Add widget for profile page
+        child: ProfileScreen()), //Add widget for profile page
   ];
 
   @override
