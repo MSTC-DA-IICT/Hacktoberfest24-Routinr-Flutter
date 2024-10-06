@@ -63,7 +63,7 @@ flutter_native_splash:
     color: "#4caf50"
 
     # App icon background color.
-    #icon_background_color: "#111111"
+    icon_background_color: "#4caf50"
 
     # The branding property allows you to specify an image used as branding in the splash screen.
     branding: assets/Routinr_removebg.png
@@ -78,8 +78,8 @@ flutter_native_splash:
   # The android, ios and web parameters can be used to disable generating a splash screen on a given
   # platform.
   #android: false
-  #ios: false
-  #web: false
+  ios: false
+  web: false
 
   # Platform specific images can be specified with the following parameters, which will override
   # the respective parameter.  You may specify all, selected, or none of these parameters:
@@ -117,7 +117,7 @@ flutter_native_splash:
   # https://developer.android.com/reference/android/view/Gravity): bottom, center,
   # center_horizontal, center_vertical, clip_horizontal, clip_vertical, end, fill, fill_horizontal,
   # fill_vertical, left, right, start, or top.
-  #android_gravity: center
+  android_gravity: center
   #
   # ios_content_mode can be one of the following iOS UIView.ContentMode (see
   # https://developer.apple.com/documentation/uikit/uiview/contentmode): scaleToFill,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker/profile_screen.dart';
 
 void main() {
   runApp(const HabitTrackerApp());
@@ -15,14 +16,12 @@ class HabitTrackerApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -35,9 +34,7 @@ class _HomePageState extends State<HomePage> {
     const Center(
         child: Text('Calendar Page',
             style: TextStyle(fontSize: 24))), //Add widgets for Calendar Page
-    const Center(
-        child: Text('Profile Page',
-            style: TextStyle(fontSize: 24))), //Add widget for profile page
+    const Center(child: ProfileScreen()), //Add widget for profile page
   ];
 
   @override
