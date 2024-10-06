@@ -10,8 +10,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final String username = "Prx";
   final String email = "prx@example.com";
+
   final String profilePicUrl =
       "https://via.placeholder.com/150"; // Replace with actual profile pic URL
+ Replace with actual profile pic URL
+
   bool isLoggedIn = true; // Toggle login status
   final String joinedDate = "Joined: Jan 2022"; // Example joined date
   final int currentStreak = 5; // Example streak
@@ -116,6 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ListTile(
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
                 title: const Text(
                   'Share My Progress',
                   style: TextStyle(

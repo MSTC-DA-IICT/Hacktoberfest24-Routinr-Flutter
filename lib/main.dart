@@ -34,7 +34,9 @@ class _HomePageState extends State<HomePage> {
     const Center(
         child: Text('Calendar Page',
             style: TextStyle(fontSize: 24))), //Add widgets for Calendar Page
+
     const Center(child: ProfileScreen()), //Add widget for profile page
+
   ];
 
   @override
