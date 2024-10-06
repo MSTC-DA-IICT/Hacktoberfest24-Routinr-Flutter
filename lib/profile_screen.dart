@@ -10,7 +10,11 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final String username = "Prx";
   final String email = "prx@example.com";
-  final String profilePicUrl = "https://via.placeholder.com/150"; // Replace with actual profile pic URL
+
+  final String profilePicUrl =
+      "https://via.placeholder.com/150"; // Replace with actual profile pic URL
+ Replace with actual profile pic URL
+
   bool isLoggedIn = true; // Toggle login status
   final String joinedDate = "Joined: Jan 2022"; // Example joined date
   final int currentStreak = 5; // Example streak
@@ -113,7 +117,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               elevation: 4,
               margin: const EdgeInsets.symmetric(vertical: 10),
               child: ListTile(
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+
                 title: const Text(
                   'Share My Progress',
                   style: TextStyle(
@@ -134,7 +140,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ElevatedButton(
                   onPressed: _editProfile,
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
                     backgroundColor: Colors.grey,
                   ),
                   child: const Text('Edit Profile'),
@@ -143,7 +150,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ElevatedButton(
                   onPressed: _handleAuth,
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 12),
                     backgroundColor: isLoggedIn ? Colors.red : Colors.green,
                   ),
                   child: Text(isLoggedIn ? 'Logout' : 'Login/SignUp'),
