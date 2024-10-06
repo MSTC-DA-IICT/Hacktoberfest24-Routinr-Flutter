@@ -28,7 +28,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       );
       tempBackend.saveSignUpData(_email, _password, _name);
       tempBackend.printSavedData();
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const LoginScreen(),
@@ -39,17 +39,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: 200,
+              height:
+                  screenHeight * 0.3, // Using a fraction of the screen height
               decoration: const BoxDecoration(
-                  color: Colors.green,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(200),
-                      bottomRight: Radius.circular(200))),
+                color: Colors.green,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(200),
+                  bottomRight: Radius.circular(200),
+                ),
+              ),
               child: Center(
                 child: Column(
                   children: [
@@ -58,9 +64,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       child: const Text(
                         "Sign Up",
                         style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     Container(
@@ -92,8 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             const SizedBox(height: 100),
             Container(
               padding: const EdgeInsets.all(15),
-              height: 420,
-              width: 300,
+              width: screenWidth * 0.8, // Using a fraction of the screen width
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.black),
                 borderRadius: const BorderRadius.all(
@@ -101,8 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
               child: Form(
-                canPop: false,
-                key: _formKey, // Add the form key for validation
+                key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -162,47 +167,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 30),
                     Center(
-                        child: Column(
-                      children: [
-                        ElevatedButton(
-                          onPressed: _submitForm,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.green, // Button background color
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 50, vertical: 15),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text(
-                            'Create My Account',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontWeight: FontWeight.w900,
-                            ),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            //navitate to login page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginScreen(),
+                      child: Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: _submitForm,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 50, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                            );
-                          },
-                          child: const Text(
-                            "Already Have an account..LogIn",
-                            style: TextStyle(
-                              color: Colors.black,
+                            ),
+                            child: const Text(
+                              'Create My Account',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    )),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "Already Have an account..LogIn",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
