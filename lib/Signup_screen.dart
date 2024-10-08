@@ -19,21 +19,36 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _password = '';
 
   // Function to validate and save the form data
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      // Here you can perform actions like saving the data or navigating to the next screen
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Account Created for $_name')),
-      );
-      tempBackend.saveSignUpData(_email, _password, _name);
-      tempBackend.printSavedData();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
+
+      // Try to save the signup data and check if the email is unique
+      bool isSignUpSuccessful =
+          await tempBackend.saveSignUpData(_email, _password, _name);
+
+      if (isSignUpSuccessful) {
+        // If signup is successful (unique email), show success message and navigate
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Account Created for $_name')),
+        );
+
+        tempBackend.printSavedData(); // For debugging purposes
+
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginScreen(),
+          ),
+        );
+      } else {
+        // If email already exists, show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content:
+                  Text('Email already in use. Please use a different email.')),
+        );
+      }
     }
   }
 

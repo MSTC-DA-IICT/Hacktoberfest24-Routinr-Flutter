@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/profile_screen.dart';
-
 import 'Signup_screen.dart';
+import 'temp_backend.dart';
+import 'profile_screen.dart';
 
 void main() {
-  runApp(HabitTrackerApp());
+  runApp(const HabitTrackerApp());
 }
 
 class HabitTrackerApp extends StatelessWidget {
@@ -12,13 +12,31 @@ class HabitTrackerApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TempBackend tempbackend = TempBackend();
+
+    // Use FutureBuilder to handle the async check for login status
     return MaterialApp(
       title: 'Routinr',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: SignUpScreen(),
+      home: FutureBuilder<bool>(
+        future: tempbackend.isUserLoggedIn(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Display loading spinner while waiting for login status
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Handle error while loading login status
+            return const Center(child: Text('Error loading data'));
+          } else {
+            // Navigate to HomePage if user is logged in, otherwise show SignUpScreen
+            bool isLogin = snapshot.data ?? false;
+            return isLogin ? const HomePage() : const SignUpScreen();
+          }
+        },
+      ),
     );
   }
 }
@@ -27,7 +45,6 @@ class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _HomePageState createState() => _HomePageState();
 }
 
@@ -38,8 +55,8 @@ class _HomePageState extends State<HomePage> {
     HabitListPage(), // Home Page
     const Center(
         child: Text('Calendar Page',
-            style: TextStyle(fontSize: 24))), //Add widgets for Calendar Page
-    const Center(child: ProfileScreen()), //Add widget for profile page
+            style: TextStyle(fontSize: 24))), // Calendar Page
+    const ProfileScreen(), // Profile Page
   ];
 
   @override
@@ -52,20 +69,19 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: const Icon(
-                  Icons.incomplete_circle_sharp,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  // Add Logic for streak
-                },
-              ),
-            ],
-          )
+          IconButton(
+            icon:
+                const Icon(Icons.incomplete_circle_sharp, color: Colors.white),
+            onPressed: () {
+              // Add streak logic here
+              TempBackend().logOut();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
         ],
       ),
       body: _pages[_currentIndex],
@@ -139,18 +155,19 @@ class HabitListPage extends StatelessWidget {
           ),
           const SizedBox(height: 14),
           Column(
-              children: habits.map((habit) {
-            return Card(
-              child: ListTile(
-                title: Text(habit),
-                trailing: const Icon(
-                  Icons.arrow_drop_down_outlined,
-                  size: 30,
+            children: habits.map((habit) {
+              return Card(
+                child: ListTile(
+                  title: Text(habit),
+                  trailing: const Icon(
+                    Icons.arrow_drop_down_outlined,
+                    size: 30,
+                  ),
+                  iconColor: Colors.green,
                 ),
-                iconColor: Colors.green,
-              ),
-            );
-          }).toList()),
+              );
+            }).toList(),
+          ),
         ],
       ),
     );

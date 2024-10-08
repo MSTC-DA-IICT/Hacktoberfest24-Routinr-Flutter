@@ -6,14 +6,22 @@ class TempBackend {
   String name = "";
 
   // Function to save signup form data to SharedPreferences
-  Future<void> saveSignUpData(
+  Future<bool> saveSignUpData(
       String email, String password, String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Save user details to SharedPreferences
+    // Check if the email already exists
+    String? storedEmail = prefs.getString('email');
+    if (storedEmail != null && storedEmail == email) {
+      // Email already exists
+      return false; // Signup failed, email not unique
+    }
+
+    // Save user details to SharedPreferences if email is unique
     await prefs.setString('email', email);
     await prefs.setString('password', password);
     await prefs.setString('name', name);
+    return true; // Signup successful
   }
 
   // Function to validate login data from SharedPreferences
@@ -36,13 +44,15 @@ class TempBackend {
     }
   }
 
-  // Function to check if user is already logged in
+  // Function to check if user is already logged in by verifying email and password
   Future<bool> isUserLoggedIn() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Check if email and password are already saved in SharedPreferences
+    // Check if both email and password are already saved in SharedPreferences
     String? storedEmail = prefs.getString('email');
-    return storedEmail != null;
+    String? storedPassword = prefs.getString('password');
+
+    return (storedEmail != null && storedPassword != null);
   }
 
   // Function to log out and clear the user data from SharedPreferences
@@ -55,16 +65,17 @@ class TempBackend {
     await prefs.remove('name');
   }
 
+  // Function to print saved data (for debugging purposes)
   void printSavedData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    // Retrieve stored email and password from SharedPreferences
+    // Retrieve stored email, password, and name from SharedPreferences
     String? _email = prefs.getString('email');
     String? _password = prefs.getString('password');
     String? _name = prefs.getString('name');
 
-    print(_email);
-    print(_password);
-    print(name);
+    print("Saved Email: $_email");
+    print("Saved Password: $_password");
+    print("Saved Name: $_name");
   }
 }
