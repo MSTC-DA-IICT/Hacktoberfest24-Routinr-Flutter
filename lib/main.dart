@@ -1,25 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracker/profile_screen.dart';
+import 'Signup_screen.dart';
+import 'temp_backend.dart';
+import 'profile_screen.dart';
 
 void main() {
-  runApp(HabitTrackerApp());
+  runApp(const HabitTrackerApp());
 }
 
 class HabitTrackerApp extends StatelessWidget {
+  const HabitTrackerApp({super.key});
+
   @override
   Widget build(BuildContext context) {
+    TempBackend tempbackend = TempBackend();
+
+    // Use FutureBuilder to handle the async check for login status
     return MaterialApp(
       title: 'Routinr',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: HomePage(),
+      home: FutureBuilder<bool>(
+        future: tempbackend.isUserLoggedIn(),
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Display loading spinner while waiting for login status
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            // Handle error while loading login status
+            return const Center(child: Text('Error loading data'));
+          } else {
+            // Navigate to HomePage if user is logged in, otherwise show SignUpScreen
+            bool isLogin = snapshot.data ?? false;
+            return isLogin ? const HomePage() : const SignUpScreen();
+          }
+        },
+      ),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -29,11 +53,10 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     HabitListPage(), // Home Page
-    Center(
+    const Center(
         child: Text('Calendar Page',
-            style: TextStyle(fontSize: 24))), //Add widgets for Calendar Page
-    Center(
-        child: ProfileScreen()), //Add widget for profile page
+            style: TextStyle(fontSize: 24))), // Calendar Page
+    const ProfileScreen(), // Profile Page
   ];
 
   @override
@@ -41,21 +64,24 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[700],
-        title: Text('Routinr: Habit Tracker', style: TextStyle(
-          color: Colors.white
-        ),),
+        title: const Text(
+          'Routinr: Habit Tracker',
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Icon(Icons.incomplete_circle_sharp, color: Colors.white,),
-                onPressed: () {
-                  // Add Logic for streak
-                },
-              ),
-            ],
-          )
+          IconButton(
+            icon:
+                const Icon(Icons.incomplete_circle_sharp, color: Colors.white),
+            onPressed: () {
+              // Add streak logic here
+              TempBackend().logOut();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                (Route<dynamic> route) => false,
+              );
+            },
+          ),
         ],
       ),
       body: _pages[_currentIndex],
@@ -65,8 +91,8 @@ class _HomePageState extends State<HomePage> {
         },
         backgroundColor: Colors.green[700],
         foregroundColor: Colors.white,
-        icon: Icon(Icons.add),
-        label: Text("Add Habit"),
+        icon: const Icon(Icons.add),
+        label: const Text("Add Habit"),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
@@ -75,7 +101,7 @@ class _HomePageState extends State<HomePage> {
             _currentIndex = index;
           });
         },
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -104,6 +130,8 @@ class HabitListPage extends StatelessWidget {
     'Drink water',
   ];
 
+  HabitListPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -111,34 +139,35 @@ class HabitListPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'Hi, John',
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 14),
-          Text(
+          const SizedBox(height: 14),
+          const Text(
             "Today is 2024-10-01",
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 14),
-          Text(
+          const SizedBox(height: 14),
+          const Text(
             "Your Habits:",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 14),
+          const SizedBox(height: 14),
           Column(
-              children: habits.map((habit) {
-            return Card(
-              child: ListTile(
-                title: Text(habit),
-                trailing: Icon(
-                  Icons.arrow_drop_down_outlined,
-                  size: 30,
+            children: habits.map((habit) {
+              return Card(
+                child: ListTile(
+                  title: Text(habit),
+                  trailing: const Icon(
+                    Icons.arrow_drop_down_outlined,
+                    size: 30,
+                  ),
+                  iconColor: Colors.green,
                 ),
-                iconColor: Colors.green,
-              ),
-            );
-          }).toList()),
+              );
+            }).toList(),
+          ),
         ],
       ),
     );
